@@ -28,7 +28,7 @@ class KoalamonReporter extends Extension
 
     private function testCollectionToName(TestEvent $test)
     {
-        return $this->stringToText(str_replace('Cest.php', '', basename($test->getTest()->getTestFileName($test->getTest()))));
+        return $this->stringToText(str_replace('Cest.php', '', basename($test->getTest()->getFileName($test->getTest()))));
     }
 
     private function testToName(TestEvent $test)
@@ -54,14 +54,14 @@ class KoalamonReporter extends Extension
     public function step(StepEvent $stepEvent)
     {
         $this->penultimateStep = $this->lastStep;
-        $this->lastStep = $stepEvent->getStep()->getPhpCode();
+        $this->lastStep = $stepEvent->getStep()->getPhpCode(256);
     }
 
     public function success(TestEvent $test)
     {
         $testCollectionName = $this->testCollectionToName($test);
         if (!array_key_exists($testCollectionName, $this->testCollections)) {
-            $this->testCollections[$testCollectionName] = array('file' => $test->getTest()->getTestFileName($test->getTest()), 'tests' => []);
+            $this->testCollections[$testCollectionName] = array('file' => $test->getTest()->getFileName($test->getTest()), 'tests' => []);
         }
     }
 
@@ -71,7 +71,7 @@ class KoalamonReporter extends Extension
         $testName = $this->testToName($test);
 
         if (!array_key_exists($testCollectionName, $this->testCollections)) {
-            $this->testCollections[$testCollectionName] = array('file' => $test->getTest()->getTestFileName($test->getTest()), 'tests' => []);
+            $this->testCollections[$testCollectionName] = array('file' => $test->getTest()->getFileName($test->getTest()), 'tests' => []);
         }
 
         if (strpos($this->penultimateStep, '//') === 0) {
@@ -150,6 +150,7 @@ class KoalamonReporter extends Extension
                 $message .= '<li>' . $testName['name'] . ' <br><pre>Step: ' . $testName['lastStep'] . '.</pre></li>';
             }
             $message .= '</ul>';
+
 
             if ($failed) {
                 $status = Event::STATUS_FAILURE;
