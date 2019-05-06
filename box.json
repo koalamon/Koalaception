@@ -1,8 +1,7 @@
 {
   "directories": ["src", "vendor"],
   "output": "KoalamonReporter.phar",
-  "chmod": "0755",
-  "stub": true,
+  "main": false,
   "finder": [
     {
       "name": "*.php",

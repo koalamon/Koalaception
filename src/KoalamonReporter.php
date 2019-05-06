@@ -129,7 +129,7 @@ class KoalamonReporter extends Extension
     public function suite()
     {
         $tool = 'Codeception';
-        $koalamonServer = 'https://webhook.koalamon.com';
+        $koalamonServer = 'https://monitor.leankoala.com/webhook/';
 
         if (array_key_exists('server', $this->config)) {
             $koalamonServer = $this->config['server'];

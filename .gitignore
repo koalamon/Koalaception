@@ -1,4 +1,5 @@
 .idea
+.box_dump
 
 vendor/
 composer.lock
