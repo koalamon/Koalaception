@@ -1,4 +1,5 @@
 <?php
+
 namespace Koalamon\Extension;
 
 use Codeception\Event\StepEvent;
@@ -8,7 +9,7 @@ use Codeception\Exception\ConfigurationException;
 use Codeception\Extension;
 use GuzzleHttp\Client;
 use Koalamon\Client\Reporter\Event;
-use Koalamon\Client\Reporter\Reporter;
+use Koalamon\Client\Reporter\WebhookReporter;
 
 class KoalamonReporter extends Extension
 {
@@ -134,7 +135,7 @@ class KoalamonReporter extends Extension
             $koalamonServer = $this->config['server'];
         }
 
-        $reporter = new Reporter('', $this->getApiKey(), new Client(), $koalamonServer);
+        $reporter = new WebhookReporter($this->getApiKey(), new Client(), $koalamonServer);
 
         $url = $this->getUrl();
 
@@ -156,7 +157,7 @@ class KoalamonReporter extends Extension
                 $status = Event::STATUS_FAILURE;
             } else {
                 $status = Event::STATUS_SUCCESS;
-                $message = '';
+                $message = 'All Codeception tests in collection "' . $testCollection . '" succeeded.';
             }
 
             $system = $this->getSystem();
